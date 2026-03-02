@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CALCULADORA DE IMC</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: rgb(49, 49, 49);
+        }
+
+        .center {
+            text-align: center;
+            margin: 0 auto;
+        }
+
+        .fonteDefault {
+            font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+        }
+
+        .padding {
+            padding: 7px;
+        }
+
+        .background {
+            background-color: rgb(49, 49, 49);
+            height: 100%;
+        }
+
+        .backgroundResultado {
+            background-color: white;
+        }
+
+        .cor-titulo {
+            color: white;
+        }
+
+        .cor-IMC {
+            color: rgb(255, 209, 2);
+        }
+
+        .corTitleTab {
+            background-color: blue;
+            color: white;
+        }
+
+        .corTitleTab {
+            width: 85%;
+        }
+
+        .backgroundTable {
+            background-color: white;
+        }
+
+        span,
+        h4 {
+            color: white;
+        }
+
+        .center input {
+            height: 40px;
+            border-radius: 25px;
+            border: none;
+            padding-left: 5px;
+            text-align: center;
+            margin-bottom: 4px;
+            font-weight: bold;
+            font-size: large;
+            color: black;
+        }
+
+        .container {
+            width: 90%;
+            background-color: blue;
+        }
+
+        div {
+            background-color: aliceblue;
+            width: 175px;
+            clear: both;
+        }
+
+        .botao-1 {
+            float: left;
+            margin-top: 9px;
+            margin-bottom: 9px;
+            border-radius: 20px;
+            height: 30px;
+            border: 1px solid white;
+            background-color: blue;
+            padding: 3px;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .botao-2 {
+            float: right;
+            margin-top: 9px;
+            margin-bottom: 9px;
+            border-radius: 25px;
+            height: 30px;
+            width: 80px;
+            border: 1px solid white;
+            background-color: orange;
+            padding: 3px;
+            color: black;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .table {
+            width: 100%;
+        }
+
+        h4 {
+            margin-top: 22px;
+            margin-bottom: 22px;
+        }
+
+        .linha-ativa {
+            background-color: #ffcc00;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="background fonteDefault">
+        <header class="center padding">
+            <h3 class="cor-titulo">CALCULADORA</h3>
+            <h1 class="cor-IMC">IMC</h1>
+        </header>
+
+        <section class="center">
+            <span>ALTURA (ex: 1.75)</span><br>
+            <input type="text" name="" id="altura" placeholder="ALTURA"><br>
+            <span>PESO (ex: 68,2)</span><br>
+            <input type="text" name="" id="peso" placeholder="PESO"><br>
+            <div class="center">
+                <button class="botao-1" onclick="calcularIMC()">CALCULAR</button>
+                <button class="botao-2" onclick="limparCampos()">LIMPAR </button>
+            </div>
+            <br><br>
+            <h4 id="resultado">RESULTADO:</h4>
+
+        </section>
+        <section class="center container">
+            <h2 class="corTitleTab center padding">VEJA A INTERPLETAÇÃO DO IMC</h2>
+            <table class="center backgroundTable table" border="1">
+                <tr id="linha1">
+                    <td>MENOR QUE 18,5</td>
+                    <td>ABAIXO DO PESO</td>
+                    <td>O</td>
+                </tr>
+
+                <tr id="linha2">
+                    <td>ENTRE 18,5 e 24,9</td>
+                    <td>PESO NORMAL</td>
+                    <td>O</td>
+                </tr>
+
+                <tr id="linha3">
+                    <td>ENTRE 25,0 e 29,9</td>
+                    <td>SOBREPESO</td>
+                    <td>I</td>
+                </tr>
+
+                <tr id="linha4">
+                    <td>ENTRE 30,0 e 34,9</td>
+                    <td>OBESIDADE</td>
+                    <td>II</td>
+                </tr>
+
+                <tr id="linha5">
+                    <td>MAIOR QUE 40,0</td>
+                    <td>OBESIDADE SEVERA</td>
+                    <td>III</td>
+                </tr>
+            </table>
+        </section>
+
+    </main>
+    <script>
+        function calcularIMC() {
+
+            var altura = document.getElementById("altura").value;
+            var peso = document.getElementById("peso").value;
+            var resultado = document.getElementById("resultado");
+
+            var alturaValor = parseFloat(altura.replace(",", "."));
+            var pesoValor = parseFloat(peso.replace(",", "."));
+
+            var imc = pesoValor / (alturaValor * alturaValor);
+
+            resultado.textContent = "RESULTADO: " + imc.toFixed(2);
+
+            // remove destaque anterior
+            document.querySelectorAll("tr").forEach(tr => {
+                tr.classList.remove("linha-ativa");
+            });
+
+            // marca a linha correta
+            if (imc < 18.5) {
+                document.getElementById("linha1").classList.add("linha-ativa");
+            }
+            else if (imc < 25) {
+                document.getElementById("linha2").classList.add("linha-ativa");
+            }
+            else if (imc < 30) {
+                document.getElementById("linha3").classList.add("linha-ativa");
+            }
+            else if (imc < 35) {
+                document.getElementById("linha4").classList.add("linha-ativa");
+            }
+            else {
+                document.getElementById("linha5").classList.add("linha-ativa");
+            }
+        }
+        function limparCampos() {
+
+            document.getElementById("altura").value = "";
+            document.getElementById("peso").value = "";
+
+            document.getElementById("resultado").textContent = "RESULTADO:";
+
+            // remove o destaque da tabela
+            document.querySelectorAll("tr").forEach(tr => {
+                tr.classList.remove("linha-ativa");
+            });
+        }
+    </script>
+</body>
+
+</html>
